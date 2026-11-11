@@ -1,0 +1,91 @@
+Starting Nmap 7.94SVN ( https://nmap.org ) at 2026-11-11 16:54 CET
+Nmap scan report for localhost (127.0.0.1)
+Host is up (0.000068s latency).
+
+PORT      STATE SERVICE  VERSION
+8000/tcp  open  http-alt uvicorn
+9200/tcp  open  rtsp
+27017/tcp open  mongod?
+3 services unrecognized despite returning data. If you know the service/version, please submit the following fingerprints at https://nmap.org/cgi-bin/submit.cgi?new-service :
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port8000-TCP:V=7.94SVN%I=7%D=11/11%Time=6AF48FCA%P=x86_64-pc-linux-gnu%
+SF:r(GetRequest,AD,"HTTP/1\.1\x20404\x20Not\x20Found\r\ndate:\x20Wed,\x201
+SF:1\x20Nov\x202026\x2015:54:50\x20GMT\r\nserver:\x20uvicorn\r\ncontent-le
+SF:ngth:\x2022\r\ncontent-type:\x20application/json\r\nconnection:\x20clos
+SF:e\r\n\r\n{\"detail\":\"Not\x20Found\"}")%r(X11Probe,C0,"HTTP/1\.1\x2040
+SF:0\x20Bad\x20Request\r\ndate:\x20Wed,\x2011\x20Nov\x202026\x2015:54:50\x
+SF:20GMT\r\nserver:\x20uvicorn\r\ncontent-type:\x20text/plain;\x20charset=
+SF:utf-8\r\ncontent-length:\x2030\r\nconnection:\x20close\r\n\r\nInvalid\x
+SF:20HTTP\x20request\x20received\.")%r(FourOhFourRequest,AD,"HTTP/1\.1\x20
+SF:404\x20Not\x20Found\r\ndate:\x20Wed,\x2011\x20Nov\x202026\x2015:54:50\x
+SF:20GMT\r\nserver:\x20uvicorn\r\ncontent-length:\x2022\r\ncontent-type:\x
+SF:20application/json\r\nconnection:\x20close\r\n\r\n{\"detail\":\"Not\x20
+SF:Found\"}")%r(Socks5,C0,"HTTP/1\.1\x20400\x20Bad\x20Request\r\ndate:\x20
+SF:Wed,\x2011\x20Nov\x202026\x2015:54:50\x20GMT\r\nserver:\x20uvicorn\r\nc
+SF:ontent-type:\x20text/plain;\x20charset=utf-8\r\ncontent-length:\x2030\r
+SF:\nconnection:\x20close\r\n\r\nInvalid\x20HTTP\x20request\x20received\."
+SF:)%r(Socks4,C0,"HTTP/1\.1\x20400\x20Bad\x20Request\r\ndate:\x20Wed,\x201
+SF:1\x20Nov\x202026\x2015:54:50\x20GMT\r\nserver:\x20uvicorn\r\ncontent-ty
+SF:pe:\x20text/plain;\x20charset=utf-8\r\ncontent-length:\x2030\r\nconnect
+SF:ion:\x20close\r\n\r\nInvalid\x20HTTP\x20request\x20received\.")%r(HTTPO
+SF:ptions,AD,"HTTP/1\.1\x20404\x20Not\x20Found\r\ndate:\x20Wed,\x2011\x20N
+SF:ov\x202026\x2015:54:50\x20GMT\r\nserver:\x20uvicorn\r\ncontent-length:\
+SF:x2022\r\ncontent-type:\x20application/json\r\nconnection:\x20close\r\n\
+SF:r\n{\"detail\":\"Not\x20Found\"}")%r(RTSPRequest,AD,"HTTP/1\.1\x20404\x
+SF:20Not\x20Found\r\ndate:\x20Wed,\x2011\x20Nov\x202026\x2015:54:50\x20GMT
+SF:\r\nserver:\x20uvicorn\r\ncontent-length:\x2022\r\ncontent-type:\x20app
+SF:lication/json\r\nconnection:\x20close\r\n\r\n{\"detail\":\"Not\x20Found
+SF:\"}")%r(RPCCheck,C0,"HTTP/1\.1\x20400\x20Bad\x20Request\r\ndate:\x20Wed
+SF:,\x2011\x20Nov\x202026\x2015:54:50\x20GMT\r\nserver:\x20uvicorn\r\ncont
+SF:ent-type:\x20text/plain;\x20charset=utf-8\r\ncontent-length:\x2030\r\nc
+SF:onnection:\x20close\r\n\r\nInvalid\x20HTTP\x20request\x20received\.");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port9200-TCP:V=7.94SVN%I=7%D=11/11%Time=6AF48FCA%P=x86_64-pc-linux-gnu%
+SF:r(GetRequest,29C,"HTTP/1\.0\x20200\x20OK\r\nX-elastic-product:\x20Elast
+SF:icsearch\r\ncontent-type:\x20application/json;\x20charset=UTF-8\r\ncont
+SF:ent-length:\x20547\r\n\r\n{\n\x20\x20\"name\"\x20:\x20\"61817c607c89\",
+SF:\n\x20\x20\"cluster_name\"\x20:\x20\"docker-cluster\",\n\x20\x20\"clust
+SF:er_uuid\"\x20:\x20\"ikiInX37SDqFwGpGMbU8DA\",\n\x20\x20\"version\"\x20:
+SF:\x20{\n\x20\x20\x20\x20\"number\"\x20:\x20\"7\.17\.10\",\n\x20\x20\x20\
+SF:x20\"build_flavor\"\x20:\x20\"default\",\n\x20\x20\x20\x20\"build_type\
+SF:"\x20:\x20\"docker\",\n\x20\x20\x20\x20\"build_hash\"\x20:\x20\"fecd68e
+SF:3150eda0c307ab9a9d7557f5d5fd71349\",\n\x20\x20\x20\x20\"build_date\"\x2
+SF:0:\x20\"2023-04-23T05:33:18\.138275597Z\",\n\x20\x20\x20\x20\"build_sna
+SF:pshot\"\x20:\x20false,\n\x20\x20\x20\x20\"lucene_version\"\x20:\x20\"8\
+SF:.11\.1\",\n\x20\x20\x20\x20\"minimum_wire_compatibility_version\"\x20:\
+SF:x20\"6\.8\.0\",\n\x20\x20\x20\x20\"minimum_index_compatibility_version\
+SF:"\x20:\x20\"6\.0\.0-beta1\"\n\x20\x20},\n\x20\x20\"tagline\"\x20:\x20\"
+SF:You\x20Know,\x20for\x20Search\"\n}\n")%r(HTTPOptions,89,"HTTP/1\.0\x202
+SF:00\x20OK\r\nAllow:\x20DELETE,GET,HEAD\r\nX-elastic-product:\x20Elastics
+SF:earch\r\ncontent-type:\x20text/plain;\x20charset=UTF-8\r\ncontent-lengt
+SF:h:\x200\r\n\r\n")%r(RTSPRequest,89,"RTSP/1\.0\x20200\x20OK\r\nAllow:\x2
+SF:0DELETE,GET,HEAD\r\nX-elastic-product:\x20Elasticsearch\r\ncontent-type
+SF::\x20text/plain;\x20charset=UTF-8\r\ncontent-length:\x200\r\n\r\n")%r(F
+SF:ourOhFourRequest,115,"HTTP/1\.0\x20405\x20Method\x20Not\x20Allowed\r\nA
+SF:llow:\x20POST\r\nX-elastic-product:\x20Elasticsearch\r\ncontent-type:\x
+SF:20application/json;\x20charset=UTF-8\r\ncontent-length:\x20127\r\n\r\n{
+SF:\"error\":\"Incorrect\x20HTTP\x20method\x20for\x20uri\x20\[/nice%20port
+SF:s%2C/Tri%6Eity\.txt%2ebak\]\x20and\x20method\x20\[GET\],\x20allowed:\x2
+SF:0\[POST\]\",\"status\":405}")%r(SIPOptions,8C,"SIP/2\.0\x20200\x20OK\r\
+SF:nAllow:\x20PUT,DELETE,GET,HEAD\r\nX-elastic-product:\x20Elasticsearch\r
+SF:\ncontent-type:\x20text/plain;\x20charset=UTF-8\r\ncontent-length:\x200
+SF:\r\n\r\n");
+==============NEXT SERVICE FINGERPRINT (SUBMIT INDIVIDUALLY)==============
+SF-Port27017-TCP:V=7.94SVN%I=7%D=11/11%Time=6AF48FCA%P=x86_64-pc-linux-gnu
+SF:%r(mongodb,114,"\x14\x01\0\0\x8e\x01\0\0:0\0\0\x01\0\0\0\x08\0\0\0\0\0\
+SF:0\0\0\0\0\0\0\0\0\0\x01\0\0\0\xf0\0\0\0\x01ok\0\0\0\0\0\0\0\0\0\x02errm
+SF:sg\0\xa1\0\0\0Unsupported\x20OP_QUERY\x20command:\x20serverStatus\.\x20
+SF:The\x20client\x20driver\x20may\x20require\x20an\x20upgrade\.\x20For\x20
+SF:more\x20details\x20see\x20https://dochub\.mongodb\.org/core/legacy-opco
+SF:de-removal\0\x10code\0`\x01\0\0\x02codeName\0\x1a\0\0\0UnsupportedOpQue
+SF:ryCommand\0\0")%r(GetRequest,A9,"HTTP/1\.0\x20200\x20OK\r\nConnection:\
+SF:x20close\r\nContent-Type:\x20text/plain\r\nContent-Length:\x2085\r\n\r\
+SF:nIt\x20looks\x20like\x20you\x20are\x20trying\x20to\x20access\x20MongoDB
+SF:\x20over\x20HTTP\x20on\x20the\x20native\x20driver\x20port\.\r\n")%r(Fou
+SF:rOhFourRequest,A9,"HTTP/1\.0\x20200\x20OK\r\nConnection:\x20close\r\nCo
+SF:ntent-Type:\x20text/plain\r\nContent-Length:\x2085\r\n\r\nIt\x20looks\x
+SF:20like\x20you\x20are\x20trying\x20to\x20access\x20MongoDB\x20over\x20HT
+SF:TP\x20on\x20the\x20native\x20driver\x20port\.\r\n");
+
+Service detection performed. Please report any incorrect results at https://nmap.org/submit/ .
+Nmap done: 1 IP address (1 host up) scanned in 53.78 seconds
