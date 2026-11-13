@@ -19,7 +19,9 @@ mongo = MongoClient(os.getenv("MONGO_HOST","mongo"),
     port = 27017,
     username=os.getenv("MONGO_USER"),
     password=os.getenv("MONGO_PASS"),
-    authSource="tienda")
+    authSource="tienda",
+    tls=True,
+    tlsCAFile="/mongo-certs/ca.crt")
 db = mongo[os.getenv("MONGO_DATABASE","tienda")]
 #rate limit
 @app.exception_handler(RateLimitExceeded)
@@ -82,9 +84,12 @@ def art_search(
         "query": {"match": {"titulo": q_limpia}},
     }
     r = requests.post(
-        "http://elasticsearch:9200/articulos/_search",
+        "https://elasticsearch:9200/articulos/_search",
         json=body,
-        auth=("elastic", os.getenv("ELASTIC_PASS")))
+        auth=("elastic", os.getenv("ELASTIC_PASS")),
+        verify="/mongo-certs/ca.crt",
+        timeout=10,
+    )
     if r.status_code != 200:
         log.warning("error ES status=%s q=%r", r.status_code, q)
         raise HTTPException(502, "Error de búsqueda")

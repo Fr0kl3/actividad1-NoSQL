@@ -1,11 +1,21 @@
 services:
   mongo:
     image: mongo:7
-    command: ["--auth"]
-    environment: { MONGO_INITDB_DATABASE: tienda }
+    command:
+      - "--auth"
+      - "--tlsMode"
+      - "requireTLS"
+      - "--tlsCertificateKeyFile"
+      - "/certs/mongo.pem"
+      - "--tlsCAFile"
+      - "/certs/ca.crt"
+      - "--tlsAllowConnectionsWithoutCertificates"
+    environment:
+      MONGO_INITDB_DATABASE: tienda
     volumes:
       - ./init_mongo.js:/docker-entrypoint-initdb.d/init_mongo.js:ro
-
+      - ./certs/mongo/mongo.pem:/certs/mongo.pem:ro
+      - ./certs/mongo/ca.crt:/certs/ca.crt:ro
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
     environment:
@@ -13,7 +23,13 @@ services:
       xpack.security.enabled: "true"
       ELASTIC_PASSWORD: Elastic123
       ES_JAVA_OPTS: "-Xms512m -Xmx512m"
-
+      xpack.security.http.ssl.enabled: "true"
+      xpack.security.http.ssl.key: certs/elastic.key
+      xpack.security.http.ssl.certificate: certs/elastic.crt
+    volumes:
+      - ./certs/elastic/elastic.key:/usr/share/elasticsearch/config/certs/elastic.key:ro
+      - ./certs/elastic/elastic.crt:/usr/share/elasticsearch/config/certs/elastic.crt:ro
+      - ./certs/mongo/ca.crt:/usr/share/elasticsearch/config/certs/ca.crt:ro
   fastapi-app:
     build: ./fastapi-app
     ports: ["8000:8000"]
@@ -25,3 +41,7 @@ services:
       ELASTIC_PASS: Elastic123
       MONGO_USER: app_user
       MONGO_PASS: FastApi123
+    volumes:
+      - ./certs/api.key:/certs/api.key:ro
+      - ./certs/api.crt:/certs/api.crt:ro
+      - ./certs/mongo/ca.crt:/mongo-certs/ca.crt:ro
