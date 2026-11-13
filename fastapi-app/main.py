@@ -1,19 +1,44 @@
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi.responses import JSONResponse
 from fastapi import FastAPI, Request, HTTPException, Query
 from pydantic import BaseModel, Field, field_validator
 from pymongo import MongoClient
 from bson import ObjectId
 from bson.errors import InvalidId
-import os, requests, logging, re
+from collections import defaultdict, deque
+import os, requests, logging, re, time
 
 logging.basicConfig(level=logging.INFO)
 log = logging.getLogger("api")
-app = FastAPI(title="API NoSQL (Defensa Minima)")
+app = FastAPI(title="API NoSQL (Defensa Ampliada)")
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
 mongo = MongoClient(os.getenv("MONGO_HOST","mongo"),
     port = 27017,
     username=os.getenv("MONGO_USER"),
     password=os.getenv("MONGO_PASS"),
     authSource="tienda")
 db = mongo[os.getenv("MONGO_DATABASE","tienda")]
+#rate limit
+@app.exception_handler(RateLimitExceeded)
+def rate_limit_handler(request: Request, exc: RateLimitExceeded):
+    log.warning("rate limit ip=%s ruta=%s", get_remote_address(request), request.url.path)
+    return JSONResponse(status_code=429, content={"detail": "Demasiadas peticiones"})
+
+#umbrales
+ventanas = defaultdict(deque)
+def registrar(tipo, clave, umbral, segundos=60):
+    ahora = time.time()
+    d = ventanas[(tipo, clave)]
+    d.append(ahora)
+    while d and d[0] < ahora - segundos:
+        d.popleft()
+    if len(d) == umbral:
+        log.error("ALERTA tipo=%s origen=%s eventos=%d en %ds",
+                  tipo, clave, len(d), segundos)
+
 
 class Login(BaseModel):
     username: str = Field(min_length=3, max_length=32)
@@ -30,21 +55,26 @@ class Login(BaseModel):
 class Pedido(BaseModel): producto: str; cantidad: int
 
 @app.post("/login_mongo")
-def login(data: Login):
+@limiter.limit("5/minute")
+def login(request: Request, data: Login):
     user = db.usuarios.find_one(
         {"username": data.username, "password": data.password},
         {"_id": 0})
     if user:
         return {"msg": "ok"}
     log.warning("login fallido user=%s", data.username)
+    registrar("login_fallido", get_remote_address(request), 3)
     raise HTTPException(status_code=401, detail="Bad creds")
 
 @app.get("/articulos")
+@limiter.limit("30/minute")
 def art_search(
+    request: Request,
     q: str = Query(min_length=1, max_length=100),
     page: int = Query(1, ge=1, le=100),
     size: int = Query(10, ge=1, le=50),
 ):
+    registrar("pico_busqueda", get_remote_address(request), 20)
     q_limpia = re.sub(r'([+\-=&|><!(){}\[\]^"~*?:\\/])', r'\\\1', q)
     body = {
         "from": (page - 1) * size,
