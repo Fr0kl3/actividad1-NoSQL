@@ -2,13 +2,13 @@
 set -euo pipefail
 
 ES="http://localhost:9200"
-
+AUTH="elastic:Elastic123"
 echo "Esperando a Elasticsearch..."
-until curl -s "$ES/_cluster/health" > /dev/null; do
+until curl -s -u "&AUTH" "$ES/_cluster/health" > /dev/null; do
   sleep 3
 done
 
-curl -s -X POST "$ES/_bulk?refresh=true" \
+curl -s -u "$AUTH" -X POST "$ES/_bulk?refresh=true" \
   -H "Content-Type: application/x-ndjson" \
   --data-binary @- <<'EOF'
 { "index": { "_index": "articulos", "_id": "1" } }
@@ -20,4 +20,4 @@ curl -s -X POST "$ES/_bulk?refresh=true" \
 EOF
 
 echo
-curl -s "$ES/articulos/_count?pretty"
+curl -s -u "$AUTH" "$ES/articulos/_count?pretty"

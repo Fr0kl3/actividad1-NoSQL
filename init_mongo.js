@@ -1,5 +1,11 @@
 db = db.getSiblingDB('tienda');
 
+db.createUser({
+  user: "app_user",
+  pwd: "FastApi123",
+  roles: [{ role: "readWrite", db: "tienda" }]
+});
+
 db.usuarios.insertMany([
   { username: 'alice', password: 'alice123', nombre: 'Alice', rol: 'cliente' },
   { username: 'bob',   password: 'bob123',   nombre: 'Bob',   rol: 'cliente' },
